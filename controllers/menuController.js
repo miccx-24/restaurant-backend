@@ -1,18 +1,17 @@
 const MenuItem = require('../models/MenuItem');
 
-// Get all menu items
+// Controller to fetch all menu items from the database
 const getMenuItems = async (req, res) => {
     try {
         const menuItems = await MenuItem.find({});
-        // Include both the MongoDB _id and a simpler id for reference
+        // Format the response to include both MongoDB _id and a simpler id reference
         const formattedMenuItems = menuItems.map(item => ({
-            _id: item._id,  // This is the MongoDB ObjectId you should use
-            id: item._id,   // This is the same, just for clarity
+            _id: item._id,  // MongoDB ObjectId
+            id: item._id,   // Alternative reference
             name: item.name,
             price: item.price,
             description: item.description,
             category: item.category,
-            // ... other fields
         }));
         res.json(formattedMenuItems);
     } catch (error) {
@@ -20,7 +19,7 @@ const getMenuItems = async (req, res) => {
     }
 };
 
-// Create a new menu item
+// Controller to create a new menu item
 const createMenuItem = async (req, res) => {
     const { name, description, price, image, category, prepTime } = req.body;
     const menuItem = new MenuItem({ name, description, price, image, category, prepTime });
